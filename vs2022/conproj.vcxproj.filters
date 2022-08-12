@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="test">
+      <UniqueIdentifier>{11ba43f8-c39c-477b-808b-22c63e0fdaf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ymls">
+      <UniqueIdentifier>{6b0bcebb-1b52-44be-99eb-d8e6b51603d1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\ymls\comments.yaml">
+      <Filter>ymls</Filter>
+    </None>
+    <None Include="..\ymls\rifle.yaml">
+      <Filter>ymls</Filter>
+    </None>
+    <None Include="..\ymls\var.yaml">
+      <Filter>ymls</Filter>
+    </None>
+    <None Include="..\ymls\yaml.yaml">
+      <Filter>ymls</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\test\dyml-helper.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dyml.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\test\main.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

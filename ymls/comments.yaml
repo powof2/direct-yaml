@@ -1,0 +1,51 @@
+%YAML 1.1
+---
+test333: "abdc" #"abc"
+test333: abc #abc
+test333: abc " #abc"
+test333: abc "" #abc""
+test333: abc """ #abc"""
+test444: " #abc"  #abc"
+test555: " abc"
+test555: #abc
+  - " #abc"
+  - abc " #abc"
+  - ab""""" #abc
+  - ab""" #abc"""
+  - abc " #abc"
+  - abc "" #abc
+  - abc "" #abc"
+  - "abc" " #abc"
+  - "abc" " #abc""""" " #abc"
+  - "abc" #abc
+  - "abc"" #abc
+  - "abc""" #abc
+
+test1:
+  - item1 ": abc"
+  - item2 ":abc"
+  - item3
+  - item 4
+  - item6
+
+test2:
+  - item1
+  - item2
+    - sub-item1
+    - sub-item2
+    - sub-item3
+  - item3
+  - item4
+
+test3:
+  - item1
+    - sub-item1
+      - sub-sub-item1
+      - sub-sub-item2
+      - sub-sub-item3
+    - sub-item2
+    - sub-item3
+  - item2
+  - item3
+
+...

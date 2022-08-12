@@ -1,0 +1,30 @@
+%YAML 1.1
+---
+test1:
+  - item1
+  - item2
+  - item3
+  - item 4
+  - item6
+
+test2:
+  - item1
+  - item2
+    - sub-item1
+    - sub-item2
+    - sub-item3
+  - item3
+  - item4
+
+test3:
+  - item1
+    - sub-item1
+      - sub-sub-item1
+      - sub-sub-item2
+      - sub-sub-item3
+    - sub-item2
+    - sub-item3
+  - item2
+  - item3
+
+...

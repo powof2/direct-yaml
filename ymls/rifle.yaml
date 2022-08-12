@@ -1,0 +1,42 @@
+%YAML 1.1
+---
+GeneralSettings:
+  PivotPosition: [0.0599999987, -0.100000001, 0.25]
+  FieldOfView: 47
+  FireAnimationSpeed: 1.10000002
+  MuzzleOffset: [-0.779999971, 0, -0.0500000007]
+  Colors:
+    - Green
+    - Purple
+    - Dark gray
+    - Blue
+IdleState:
+  PositionSpring:
+    Stiffness: [0.0120000001, 0.0120000001, 0.0120000001]
+    Damping: [0.280000001, 0.280000001, 0.280000001]
+  RotationSpring:
+    Stiffness: [0.0149999997, 0.0149999997, 0.0149999997]
+    Damping: [0.280000001, 0.280000001, 0.280000001]
+  Offset:
+    Enabled: 1
+    PositionOffset: [0, 0, 0]
+    RotationOffset: [0, 0, 0]
+CamForces:
+  Equip:
+    - Delay: 0.349999994
+      Force: [1, 0.5, -0.699999988]
+      Distribution: 7
+  EmptyReloadLoop:
+    - Delay: 0.600000024
+      Force: [0.400000006, -0.400000006, 0]
+      Distribution: 5
+    - Delay: 0.899999976
+      Force: [0, 0, 2]
+      Distribution: 10
+    - Delay: 2.5999999
+      Force: [-0.800000012, 0.200000003, -1]
+      Distribution: 5
+    - Delay: 1.70000005
+      Force: [-0.800000012, 0, 0]
+      Distribution: 5
+...
