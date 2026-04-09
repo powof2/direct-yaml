@@ -1,19 +1,20 @@
 ## Direct YAML
-Direct YAML is a lightweight, fast, single header YAML C++ parser.
+A lightweight, high-speed, single-header YAML parser for C++11+ with zero dependencies. Designed for simplicity and performance.
+
 - [How it works](#how-it-works)
-- [Features](#features)
-- [Installation](#installation)
-- [Notes](#notes)
+- [Key Features](#key-features)
+- [Installation & Setup](#installation--setup)
+- [Important Notes](#important-notes)
 - [Example Reader](#example-reader)
 - [License](#license)
 
-## Usage
-### load and parse rifle.yaml
+## Usage Examples
+### Load and Parse
 ```cpp
 string memFile;
 loadFromFile("../ymls/rifle.yaml", memFile);
 
-// ctor
+// use ctor: 
 //Directyaml dym(&memFile[0]);
 
 // or load with .parse
@@ -22,7 +23,7 @@ dym.parse(&memFile[0]);
 
 ```
 
-### load simple values
+### Read Simple Values
 ```yaml
 %YAML 1.1
 ---
@@ -45,7 +46,7 @@ auto fov = MyNode(node["FieldOfView"]).read<float>();
 auto pivot = MyNode(node["PivotPosition"]).read<vec3>();
 ```
 
-### load simple array
+### Read Simple Arrays
 ```yaml
 %YAML 1.1
 ---
@@ -68,7 +69,7 @@ auto noc = node.children();
 for (int i = 0; i < noc; ++i)  colors[i] = node[i].val();  
 ```
 
-### load struct array
+### Parse Struct Arrays
 ```yaml
 %YAML 1.1
 ---
@@ -108,7 +109,7 @@ for (int i = 0; i < (noc / 3); ++i)
 ```
 
 ## How it works
-The idea is to parse the entire YAML file as hierarchical key-value pairs (heavily relies on the indentation of each line). A well formed YAML file is always important.
+Direct YAML parses the entire file into hierarchical key-value pairs based on indentation levels. It transforms your YAML into an efficient, flat row-based table internally, allowing for extremely fast lookups and low memory overhead.
 
 Input YAML
 ```yaml
@@ -209,38 +210,39 @@ CamForces:
     Distribution: 5
 ```
 
-## Features
-* MIT licensed
-* No dependencies
-  * std::vector and std::string are used.
-  * std::string is only used as a container for managed parser.
-* Fast
-  * The source yaml is split and scanned (line-by-line) only once.
-  * Even faster for well formed yaml (so checkIndents() will do nothing).
-  * Even faster if no line-end-comments (undefine `__DYML_ALLOW_LINE_END_COMMENT__` to achieve this if guaranteed source yaml contains no line-end-comments)  
-* Low memory usage
-  * unmanaged: two std::vectors (one holds key-value (two pointers) + level(int) for each valid line, another holds top-levels (int))
-  * managed: unmanaged + cached source yaml string
-* Easy to use.
-* Single header file library, tested on Android, iOS and Windows.
-* Small codebase (< 450 loc)
-* Destructive, your source yaml will be **modified**! (unmanaged parser, managed parser will modify its cached yaml internally)
+## Key Features
+* **MIT Licensed**: Free for personal and commercial use.
+* **Zero Dependencies**: Uses only standard `std::vector` and `std::string`.
+* **Single-Header**: Just drop `dyml.h` into your project and go.
+* **Small Codebase**: Less than 450 lines of code.
+* **High Performance**:
+    * Scans the source line-by-line exactly once.
+    * Optimized for well-formed YAML (skips unnecessary indentation checks).
+    * Optional speed boost: Undefine `__DYML_ALLOW_LINE_END_COMMENT__` for even faster parsing if your files don't use end-of-line comments.
+* **Low Memory Footprint**: 
+    * **Unmanaged**: Uses only two vectors (one for key-value pointers + depth, one for top-level indices).
+    * **Managed**: Same as unmanaged, plus an internal cache of the source string.
+* **Cross-Platform**: Tested and verified on **Android, iOS, and Windows**.
 
-## Installation
-1. Download latest dyml.h
+## Installation & Setup
+1. Download the latest `dyml.h`
 2. Include dyml.h in your project
     - Define `__DYML_IMPLEMENTATION__` before you include this file in a cpp file to create the implementation.
     ```cpp
     #define __DYML_IMPLEMENTATION__
     #include "dyml.h"
     ```
-3. Compile with C++11 (or later) support (auto, std::vector.emplace_back)
+3. Include dyml.h normally in your other files (as you would a standard header).
+4. Compile with C++11 or later support
 
-## Notes
-Direct YAML is a line-by-line parser, so 
-* YAML version is not important
-* `&` and `*` (YAML reference) are not supported  
-* Don't split scalar into multiple lines like this, they won't crash but the parsing result may be not what you want:
+## Important Notes
+* **Destructive Parsing**: For maximum performance, the parser modifies the input buffer by replacing delimiters with null terminators. If you use the **managed parser**, it will modify its internal cache instead of your original string.
+* **Indentation Matters**: The parser relies strictly on consistent indentation to determine the hierarchy.
+* **Line-Based Parsing**: Because the logic is line-by-line:
+    * The **YAML version** does not affect parsing.
+    * **YAML References** (`&` and `*`) are **not supported**.
+    * **Multi-line scalars** are **not supported**. Do not split values across multiple lines (using `|`, `>`, or unquoted multi-line strings), as the results will be unpredictable.
+
 ```yaml
 # don't do this
   ASCII Art
@@ -266,9 +268,9 @@ quoted: "So does this
 ```
 
 ## Example Reader
-The core of Diret YAML is the parser, once the parsing is done, what to do with the parsing result is totally up to you. Here is an example class to show you how to load values from the parsing result:
+Direct YAML provides raw string access. You can easily use a wrapper class to handle type conversions. Here are two common patterns:
 ```cpp
-// example 1
+// Example 1: Reference-based loading
 class MyNode
 {
 public:
@@ -292,7 +294,7 @@ protected:
 ```
 Another exmaple:
 ```cpp
-// example 2
+// Example 2: Return-based loading
 class MyNode
 {
 public:
@@ -320,4 +322,4 @@ protected:
 ```
 
 ## License
-Distributed under the MIT license. 
+Distributed under the **MIT license**. 
