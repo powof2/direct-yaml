@@ -236,6 +236,7 @@ CamForces:
 4. Compile with C++11 or later support
 
 ## Important Notes
+* **Optimized for small-to-medium YAML Files**: The parser uses a dual-vector design (one for all parsed lines, one for root indices).
 * **Destructive Parsing**: For maximum performance, the parser modifies the input buffer by replacing delimiters with null terminators. If you use the **managed parser**, it will modify its internal cache instead of your original string.
 * **Indentation Matters**: The parser relies strictly on consistent indentation to determine the hierarchy.
 * **Line-Based Parsing**: Because the logic is line-by-line:
