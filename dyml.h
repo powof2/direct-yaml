@@ -1,4 +1,4 @@
-// Lightweight, fast, single header YAML parser for c++
+// DirectYAML: A lightweight, fast, single-header YAML parser for C++
 // MIT License
 
 #ifndef __DIRECT_YAML_H__
@@ -10,8 +10,9 @@
 using std::vector;
 using std::string;
 
-// 1. comments start from line begining is always supported
-// 2. if guaranteed source yaml contains no line-end-comments, undefine this to parse even faster
+// 1. Full-line comments (ignoring leading whitespace) are always supported.
+// 2. If your YAML source is guaranteed to have NO end-of-line comments (e.g., "key: val # comment"),
+//    undefine the macro below to maximize parsing speed.
 #define __DYML_ALLOW_LINE_END_COMMENT__
 
 namespace dyml
@@ -53,7 +54,7 @@ namespace dyml
 		public:
 			bool valid() const { return nullptr != _dyml; }
 
-			// find named child (checked version)
+			// Find a named child. Returns an invalid Node if not found. (checked version)
 			Node child(const char* key) const
 			{
 				const auto row = _dyml->child(this, key);
@@ -69,13 +70,13 @@ namespace dyml
 				return Node(row, _level + 1, _dyml);
 			}
 
-			// fast but unsafe
+			// Fast but unsafe index access. Assumes the child exists at the expected offset.
 			Node operator[](int childIndex) const
 			{
 				return Node(_row + childIndex + 1, _level + 1, _dyml);
 			}
 
-			// safe but slow
+			// Safe but slow
 			Node child(int childIndex) const
 			{
 				const auto row = _dyml->child(this, childIndex);
@@ -94,7 +95,7 @@ namespace dyml
 				return row.val;
 			}
 
-			// direct child count
+			// Returns the count of immediate children.
 			int children() const
 			{
 				return _dyml->children(this);
@@ -114,7 +115,10 @@ namespace dyml
 		}
 
 	public :
+		// Returns true if the parser owns the string data.
 		bool managed() const { return !_data.empty(); }
+		
+		// Frees unused capacity in internal vectors.
 		void shrink()
 		{
 			_rows.shrink_to_fit();
@@ -128,7 +132,7 @@ namespace dyml
 		int first_not(const char* sp, char ch);
 		int child(const Node* parent, const char* key) const;
 		int child(const Node* parent, int childIndex) const;
-		int children(const Node* parent) const; // return direct child count
+		int children(const Node* parent) const;
 
 #ifdef __DYML_ALLOW_LINE_END_COMMENT__
 		int char_count(const char* sp, char ch);
